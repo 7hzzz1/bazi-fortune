@@ -21,13 +21,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install dependencies and sync
         working-directory: mobile
         run: |
           npm install
-          npx cap sync android
+          node node_modules/@capacitor/cli/bin/cap sync android
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
