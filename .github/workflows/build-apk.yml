@@ -25,17 +25,16 @@ jobs:
 
       - name: Install dependencies
         working-directory: mobile
-        run: npm install
+        run: |
+          npm install
+          npx cap sync android
 
-      - name: Sync Capacitor
-        working-directory: mobile
-        run: npx cap sync android
+      - name: Set Gradle permissions
+        run: chmod +x mobile/android/gradlew
 
       - name: Build APK
         working-directory: mobile/android
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
