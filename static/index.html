@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>命理轩 - 八字排盘与运势分析</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1 class="logo">命理轩</h1>
+            <p class="subtitle">八字排盘 · 五行分析 · 运势解读</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab active" data-tab="bazi">八字排盘</button>
+            <button class="tab" data-tab="fortune">每日运势</button>
+            <button class="tab" data-tab="naming">五行起名</button>
+        </nav>
+
+        <main class="content">
+            <!-- 八字排盘 -->
+            <section id="tab-bazi" class="tab-panel active">
+                <div class="card">
+                    <h2>输入出生信息</h2>
+                    <form id="bazi-form" class="form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="birth-year">出生年份</label>
+                                <input type="number" id="birth-year" min="1901" max="2100" placeholder="如 1994" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="birth-month">月份</label>
+                                <select id="birth-month" required>
+                                    <option value="">选择月份</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="birth-day">日期</label>
+                                <select id="birth-day" required>
+                                    <option value="">选择日期</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="birth-hour">出生时辰</label>
+                                <select id="birth-hour" required>
+                                    <option value="">选择时辰</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">开始排盘</button>
+                    </form>
+                </div>
+
+                <div id="bazi-result" class="result-area hidden">
+                    <div class="card">
+                        <h2>八字四柱</h2>
+                        <div id="pillars-display" class="pillars"></div>
+                        <div id="shengxiao-display" class="shengxiao-info"></div>
+                    </div>
+                    <div class="card">
+                        <h2>五行分析</h2>
+                        <div class="wuxing-section">
+                            <canvas id="wuxing-chart" width="300" height="300"></canvas>
+                            <div id="wuxing-detail" class="wuxing-detail"></div>
+                        </div>
+                        <div id="wuxing-lacking" class="lacking-info"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 每日运势 -->
+            <section id="tab-fortune" class="tab-panel">
+                <div id="fortune-need-bazi" class="card">
+                    <p class="hint">请先在「八字排盘」中输入您的出生信息，才能查看每日运势。</p>
+                </div>
+                <div id="fortune-result" class="hidden">
+                    <div class="card fortune-header-card">
+                        <div class="fortune-score-wrap">
+                            <div id="fortune-score" class="fortune-score"></div>
+                            <div id="fortune-level" class="fortune-level"></div>
+                        </div>
+                        <div id="fortune-date" class="fortune-date"></div>
+                    </div>
+                    <div class="card">
+                        <h3>综合运势</h3>
+                        <p id="fortune-overall"></p>
+                    </div>
+                    <div class="fortune-grid">
+                        <div class="card mini">
+                            <h4>事业</h4>
+                            <p id="fortune-career"></p>
+                        </div>
+                        <div class="card mini">
+                            <h4>感情</h4>
+                            <p id="fortune-love"></p>
+                        </div>
+                        <div class="card mini">
+                            <h4>健康</h4>
+                            <p id="fortune-health"></p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>今日宜忌</h3>
+                        <div class="lucky-grid">
+                            <div class="lucky-item">
+                                <span class="lucky-label">幸运色</span>
+                                <span id="fortune-color" class="lucky-value"></span>
+                            </div>
+                            <div class="lucky-item">
+                                <span class="lucky-label">幸运数字</span>
+                                <span id="fortune-number" class="lucky-value"></span>
+                            </div>
+                            <div class="lucky-item">
+                                <span class="lucky-label">吉利方位</span>
+                                <span id="fortune-direction" class="lucky-value"></span>
+                            </div>
+                            <div class="lucky-item">
+                                <span class="lucky-label">今日干支</span>
+                                <span id="fortune-ganzhi" class="lucky-value"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 五行起名 -->
+            <section id="tab-naming" class="tab-panel">
+                <div id="naming-need-bazi" class="card">
+                    <p class="hint">请先在「八字排盘」中输入您的出生信息，才能获取起名建议。</p>
+                </div>
+                <div id="naming-form-area" class="hidden">
+                    <div class="card">
+                        <h2>起名设置</h2>
+                        <form id="naming-form" class="form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="surname">姓氏</label>
+                                    <input type="text" id="surname" placeholder="如 张" maxlength="2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name-gender">性别</label>
+                                    <select id="name-gender">
+                                        <option value="male">男</option>
+                                        <option value="female">女</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="lacking-wuxing-info" class="lacking-badge-area"></div>
+                            <button type="submit" class="btn btn-primary">生成名字</button>
+                        </form>
+                    </div>
+                    <div id="naming-result" class="hidden">
+                        <div class="card">
+                            <h2>推荐名字</h2>
+                            <div id="names-list" class="names-grid"></div>
+                        </div>
+                        <div class="card">
+                            <h2>推荐用字</h2>
+                            <div id="chars-list" class="chars-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>命理轩 · 仅供娱乐参考</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/charts.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
