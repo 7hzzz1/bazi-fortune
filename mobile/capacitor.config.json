@@ -1,0 +1,8 @@
+{
+  "appId": "com.minglixuan.bazi",
+  "appName": "命理轩",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
